@@ -26,7 +26,7 @@ public class APIHelper {
                 .body(authInfo)
                 .when()
                 .post("/api/auth")
-                .then()
+                .then().log().all()
                 .statusCode(statusCode);
     }
 
