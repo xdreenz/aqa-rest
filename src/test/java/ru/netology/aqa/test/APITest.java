@@ -27,17 +27,17 @@ public class APITest {
         var verificationInfo = new DataHelper.VerificationInfo(authInfo.getLogin(), verificationCode.getCode());
         var tokenInfo = APIHelper.sendQueryToVerify(verificationInfo, 200);
         var cardsBalances = APIHelper.sendQueryToGetCardsBalances(tokenInfo.getToken(), 200);
-        var card1Balance = cardsBalances.get(DataHelper.getCard1Info().getId());
-        var card2Balance = cardsBalances.get(DataHelper.getCard2Info().getId());
-        var amount = DataHelper.generateValidAmountToTransfer(card1Balance);
+        var card1BalanceBefore = cardsBalances.get(DataHelper.getCard1Info().getId());
+        var card2BalanceBefore = cardsBalances.get(DataHelper.getCard2Info().getId());
+        var amount = DataHelper.generateValidAmountToTransfer(card1BalanceBefore);
         var transferInfo = new APIHelper.APITransferInfo(DataHelper.getCard1Info().getNumber(),
                 DataHelper.getCard2Info().getNumber(), amount);
         APIHelper.generateQueryToTransfer(tokenInfo.getToken(), transferInfo, 200);
         cardsBalances = APIHelper.sendQueryToGetCardsBalances(tokenInfo.getToken(), 200);
-        var actualCard1Balance = cardsBalances.get(DataHelper.getCard1Info().getId());
-        var actualCard2Balance = cardsBalances.get(DataHelper.getCard2Info().getId());
-        Assertions.assertEquals(card1Balance - amount, actualCard1Balance);
-        Assertions.assertEquals(card2Balance + amount, actualCard2Balance);
+        var card1BalanceAfter = cardsBalances.get(DataHelper.getCard1Info().getId());
+        var card2BalanceAfter = cardsBalances.get(DataHelper.getCard2Info().getId());
+        Assertions.assertEquals(card1BalanceBefore - amount, card1BalanceAfter);
+        Assertions.assertEquals(card2BalanceBefore + amount, card2BalanceAfter);
     }
 
     @Test
@@ -49,16 +49,16 @@ public class APITest {
         var verificationInfo = new DataHelper.VerificationInfo(authInfo.getLogin(), verificationCode.getCode());
         var tokenInfo = APIHelper.sendQueryToVerify(verificationInfo, 200);
         var cardsBalances = APIHelper.sendQueryToGetCardsBalances(tokenInfo.getToken(), 200);
-        var card1Balance = cardsBalances.get(DataHelper.getCard1Info().getId());
-        var card2Balance = cardsBalances.get(DataHelper.getCard2Info().getId());
-        var amount = DataHelper.generateInvalidAmountToTransfer(card1Balance);
+        var card1BalanceBefore = cardsBalances.get(DataHelper.getCard1Info().getId());
+        var card2BalanceBefore = cardsBalances.get(DataHelper.getCard2Info().getId());
+        var amount = DataHelper.generateInvalidAmountToTransfer(card1BalanceBefore);
         var transferInfo = new APIHelper.APITransferInfo(DataHelper.getCard1Info().getNumber(),
                 DataHelper.getCard2Info().getNumber(), amount);
         APIHelper.generateQueryToTransfer(tokenInfo.getToken(), transferInfo, 400);
 //        cardsBalances = APIHelper.sendQueryToGetCardsBalances(tokenInfo.getToken(), 200);
-//        var actualCard1Balance = cardsBalances.get(DataHelper.getCard1Info().getId());
-//        var actualCard2Balance = cardsBalances.get(DataHelper.getCard2Info().getId());
-//        Assertions.assertEquals(card1Balance, actualCard1Balance);
-//        Assertions.assertEquals(card2Balance, actualCard2Balance);
+//        var card1BalanceAfter = cardsBalances.get(DataHelper.getCard1Info().getId());
+//        var card2BalanceAfter = cardsBalances.get(DataHelper.getCard2Info().getId());
+//        Assertions.assertEquals(card1BalanceBefore, card1BalanceAfter);
+//        Assertions.assertEquals(card2BalanceBefore, card2BalanceAfter);
     }
 }
