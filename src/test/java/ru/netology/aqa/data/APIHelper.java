@@ -11,7 +11,8 @@ import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 
-public class APIHelper {
+public class
+APIHelper {
     private static final RequestSpecification requestSpec = new RequestSpecBuilder()
             .setBaseUri("http://localhost")
             .setPort(9999)
