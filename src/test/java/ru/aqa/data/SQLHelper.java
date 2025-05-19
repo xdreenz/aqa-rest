@@ -1,4 +1,4 @@
-package ru.netology.aqa.data;
+package ru.aqa.data;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,8 +17,12 @@ public class SQLHelper {
     private SQLHelper() {
     }
 
+    public static String dbURL = System.getProperty("db.url");
+    public static String dbUser = System.getProperty("db.user");
+    public static String dbPassword = System.getProperty("db.password");
+
     private static Connection getConn() throws SQLException {
-        return DriverManager.getConnection("jdbc:mysql://localhost:3306/app", "app", "pass");
+        return DriverManager.getConnection(dbURL, dbUser, dbPassword);
     }
 
     @SneakyThrows

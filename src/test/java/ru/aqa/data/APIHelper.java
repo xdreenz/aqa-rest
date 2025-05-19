@@ -1,10 +1,9 @@
-package ru.netology.aqa.data;
+package ru.aqa.data;
 
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.LogDetail;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
-import lombok.Value;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -57,7 +56,7 @@ APIHelper {
                 .as(APICardInfo[].class);
         Map<String, Integer> cardsBalances = new HashMap<>();
         for (APICardInfo cardInfo : cardsInfo) {
-            cardsBalances.put(cardInfo.getId(), cardInfo.getBalance());
+            cardsBalances.put(cardInfo.id, cardInfo.balance);
         }
         return cardsBalances;
     }
@@ -73,22 +72,20 @@ APIHelper {
                 .statusCode(statusCode);
     }
 
-    @Value
-    public static class APITokenInfo {
-        String token;
-    }
+    public record APITokenInfo(
+            String token
+    ) {}
 
-    @Value
-    public static class APICardInfo {
-        String id;
-        String number;
-        Integer balance;
-    }
+    public record APICardInfo(
+            String id,
+            String number,
+            Integer balance
+    ) {}
 
-    @Value
-    public static class APITransferInfo {
-        String from;
-        String to;
-        int amount;
-    }
+
+    public record APITransferInfo(
+            String from,
+            String to,
+            int amount
+    ) {}
 }

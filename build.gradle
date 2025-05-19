@@ -1,39 +1,36 @@
-//file:noinspection VulnerableLibrariesLocal
 plugins {
     id 'java'
-    id 'io.freefair.lombok' version '8.4'
+    id 'io.freefair.lombok' version '8.13.1'
 }
 
 group = 'org.example'
-version = '1.0'
+version = '1.01'
 
 repositories {
     mavenCentral()
 }
 
-compileJava {
+tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
-}
-compileTestJava {
-    options.encoding = 'UTF-8'
-}
-
-tasks {
-    wrapper {
-        gradleVersion = '8.5'
-        distributionType = Wrapper.DistributionType.ALL
-    }
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.1'
-    testImplementation 'com.mysql:mysql-connector-j:8.3.0'
-    testImplementation 'commons-dbutils:commons-dbutils:1.8.1'
-    testImplementation 'org.slf4j:slf4j-simple:2.0.9'
-    testImplementation 'io.rest-assured:rest-assured:5.4.0'
-    testImplementation 'com.google.code.gson:gson:2.10.1'
+    testImplementation(
+            platform('org.junit:junit-bom:5.12.1'),
+            'org.junit.jupiter:junit-jupiter',
+            'com.mysql:mysql-connector-j:9.3.0',
+            'commons-dbutils:commons-dbutils:1.8.1',
+            'org.slf4j:slf4j-simple:2.0.17',
+            'io.rest-assured:rest-assured:5.5.2',
+            'com.google.code.gson:gson:2.13.1'
+    )
 }
 
 test {
     useJUnitPlatform()
+    systemProperty 'db.url', System.getProperty('db.url', 'jdbc:postgresql://localhost:3306/app')
+    systemProperty 'db.user', System.getProperty('db.user', 'app')
+    systemProperty 'db.password', System.getProperty('db.password', 'pass')
 }
